@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { isAddress } from "viem";
-import { useEnsAvatar, useEnsName } from "wagmi";
+import { useEnsName } from "wagmi";
 import { hardhat } from "wagmi/chains";
 import { CheckCircleIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
@@ -34,12 +34,6 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
   const [addressCopied, setAddressCopied] = useState(false);
 
   const { data: fetchedEns } = useEnsName({ address, enabled: isAddress(address ?? ""), chainId: 1 });
-  const { data: fetchedEnsAvatar } = useEnsAvatar({
-    name: fetchedEns,
-    enabled: Boolean(fetchedEns),
-    chainId: 1,
-    cacheTime: 30_000,
-  });
 
   // We need to apply this pattern to avoid Hydration errors.
   useEffect(() => {
@@ -47,8 +41,36 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
   }, [fetchedEns]);
 
   useEffect(() => {
-    setEnsAvatar(fetchedEnsAvatar);
-  }, [fetchedEnsAvatar]);
+    const fetchAvatar = async () => {
+      if (!fetchedEns) {
+        setEnsAvatar(null);
+        return;
+      }
+
+      try {
+        const avatarURL = `https://metadata.ens.domains/mainnet/avatar/${fetchedEns}`;
+        const response = await fetch(avatarURL);
+        const contentType = response.headers.get("Content-Type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const json = await response.json();
+          if (json.message === "There is no avatar set under given address") {
+            setEnsAvatar(null);
+          }
+          return;
+        }
+
+        const imageBlob = await response.blob();
+        const imageURL = URL.createObjectURL(imageBlob);
+        setEnsAvatar(imageURL);
+      } catch (error) {
+        console.error("Error fetching ENS avatar:", error);
+        setEnsAvatar(null);
+      }
+    };
+
+    fetchAvatar();
+  }, [fetchedEns]);
 
   // Skeleton UI
   if (!address) {
