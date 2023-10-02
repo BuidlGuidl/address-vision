@@ -1,71 +1,180 @@
-import Link from "next/link";
+import React, { useState } from "react";
+import Head from "next/head";
 import type { NextPage } from "next";
-import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
-import { MetaHeader } from "~~/components/MetaHeader";
+import { QRCodeSVG } from "qrcode.react";
+import { Address, AddressInput, Balance } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
+  const [someAddress, setSomeAddress] = useState("");
+
   return (
     <>
-      <MetaHeader />
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/pages/index.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+      <Head>
+        <title>Address.vision</title>
+        <meta name="description" content="address vision" />
+      </Head>
+      <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2 grid grid-cols-12">
+        <div className="col-start-1 col-end-3 flex flex-row items-center">
+          <div className="text-4xl mb-4">👀</div>
+          <h1 className="ml-2 text-2xl font-bold">address.vision</h1>
         </div>
+        <div className="col-start-4 col-end-10 flex justify-center">
+          <div className="flex-grow">
+            <AddressInput
+              placeholder="Enter an Ethereum address or ENS name to get started"
+              value={someAddress}
+              onChange={setSomeAddress}
+            />
+          </div>
+        </div>
+        <div className="col-start-11 col-end-13">{/* Additional content, perhaps history?*/}</div>
+      </div>
 
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
+      {someAddress ? (
+        <div className="flex w-full items-center flex-col flex-grow p-10 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="card w-96 bg-base-100 shadow-xl flex flex-col">
+              <div className="card-body flex-grow">
+                <h2 className="card-title">
+                  {someAddress && (
+                    <div>
+                      <Address address={someAddress} size="3xl" />
+                    </div>
+                  )}
+                </h2>
+              </div>
+              <div className="card-actions justify-end flex items-center text-xl p-4">
+                Balance:{" "}
+                {someAddress ? <Balance address={someAddress} className="text-2xl" /> : <p>search for an address</p>}
+              </div>
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
+
+            <div className="card w-96 bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title">
+                  See
+                  {someAddress ? (
+                    <div>
+                      <Address address={someAddress} />
+                    </div>
+                  ) : (
+                    <p>someone</p>
+                  )}
+                  on
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
+                  <button
+                    className="btn btn-primary p-2 m-1 rounded-full"
+                    title="View on Etherscan"
+                    tabIndex={1}
+                    onClick={() => {
+                      window.open("https://etherscan.io/address/" + someAddress, "_blank");
+                    }}
+                  >
+                    Etherscan
+                  </button>
+                  <button
+                    className="btn btn-primary p-2 m-1 rounded-full"
+                    title="View on Blockscan"
+                    tabIndex={2}
+                    onClick={() => {
+                      window.open("https://blockscan.com/address/" + someAddress, "_blank");
+                    }}
+                  >
+                    Blockscan
+                  </button>
+                  <button
+                    className="btn btn-primary p-2 m-1 rounded-full"
+                    title="View on Optimistic Etherscan"
+                    tabIndex={3}
+                    onClick={() => {
+                      window.open("https://optimistic.etherscan.io/address/" + someAddress, "_blank");
+                    }}
+                  >
+                    Op Etherscan
+                  </button>
+                  <button
+                    className="btn btn-primary p-2 m-1 rounded-full"
+                    title="View on Zerion"
+                    tabIndex={4}
+                    onClick={() => {
+                      window.open("https://app.zerion.io/" + someAddress + "/overview", "_blank");
+                    }}
+                  >
+                    Zerion
+                  </button>
+                  <button
+                    className="btn btn-primary p-2 m-1 rounded-full"
+                    title="View on Zapper"
+                    tabIndex={5}
+                    onClick={() => {
+                      window.open("https://zapper.xyz/account/" + someAddress, "_blank");
+                    }}
+                  >
+                    Zapper
+                  </button>
+                  <button
+                    className="btn btn-primary p-2 m-1 rounded-full"
+                    title="View on Safe"
+                    tabIndex={6}
+                    onClick={() => {
+                      window.open("https://app.safe.global/transactions/queue?safe=eth:" + someAddress, "_blank");
+                    }}
+                  >
+                    Safe
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
+
+            <div className="card w-96 bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title">Card title!</h2>
+                <p>some text</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-primary">action!</button>
+                </div>
+              </div>
+            </div>
+            <div className="card w-96 bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title">Card title!</h2>
+                <p>some text</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-primary">action!</button>
+                </div>
+              </div>
+            </div>
+            <div className="card w-96 bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title">Card title!</h2>
+                <p>some text</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-primary">action!</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="card w-96 bg-base-100 shadow-xl">
+              <div className="card-body flex justify-center items-center">
+                {someAddress ? (
+                  <div className="flex flex-col">
+                    <QRCodeSVG value={someAddress} size={256} />
+                  </div>
+                ) : (
+                  <div className="text-gray-400">QR code will appear here</div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center flex-grow relative">
+          <div className="text-9xl mb-4">👀</div>
+          <h1 className="text-4xl font-bold mb-4">Welcome to address.vision!</h1>
+          <p className="text-xl mb-4">To get started, enter an Ethereum address or ENS name in the search bar above.</p>
+        </div>
+      )}
     </>
   );
 };
