@@ -38,7 +38,6 @@ const Home: NextPage = () => {
   const [tokenData, setTokenData] = useState<any>(undefined);
   const [nftData, setNftData] = useState<NftTokenContractBalanceItem[]>(undefined as any);
 
-  const [isLoadingTokens, setIsLoadingTokens] = useState<boolean>(false);
   const [isLoadingNfts, setIsLoadingNfts] = useState<boolean>(false);
 
   const loadChains = async () => {
@@ -106,8 +105,6 @@ const Home: NextPage = () => {
 
   const getAddressBalance = async (activeTab: number) => {
     if (client) {
-      setIsLoadingTokens(true);
-
       const chainName = selectedChains.length > 0 ? selectedChains[activeTab].value : "eth-mainnet";
       const resp = await client.BalanceService.getTokenBalancesForWalletAddress(chainName, userAddress, {
         quoteCurrency: "USD",
@@ -119,8 +116,6 @@ const Home: NextPage = () => {
       if (resp.data) {
         const items = resp.data.items.filter(item => Boolean(item.quote) !== false);
         setTokenData([...items]);
-
-        setIsLoadingTokens(false);
       }
     }
   };
