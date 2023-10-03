@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Client, NftTokenContractBalanceItem } from "@covalenthq/client-sdk";
 import { format } from "date-fns";
-//@ts-ignore
-import { utils } from "ethers";
+import { ethers } from "ethers";
 import type { NextPage } from "next";
 import QRCode from "qrcode.react";
 import Select from "react-select";
@@ -164,7 +163,7 @@ const Home: NextPage = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    if (utils.isAddress(userAddress)) {
+    if (ethers.isAddress(userAddress)) {
       setSelectedChains([
         {
           chain_id: "1",
@@ -194,14 +193,16 @@ const Home: NextPage = () => {
 
         <div className="w-[100%] flex justify-end items-center ">
           <div className="w--[50%] ml-auto m-2">
-            <div>{utils.isAddress(userAddress) && <QRCode value={"0xAFFA9D3B59E4dF3e7F7F4DD711CCc55C8e6237da"} />}</div>
+            <div>
+              {ethers.isAddress(userAddress) && <QRCode value={"0xAFFA9D3B59E4dF3e7F7F4DD711CCc55C8e6237da"} />}
+            </div>
           </div>
           <div className="w-[50%] mr-[25%]">
             {chains.length > 0 && (
               <Select
-                key={utils.isAddress(userAddress) ? userAddress : ""}
+                key={ethers.isAddress(userAddress) ? userAddress : ""}
                 options={chains}
-                defaultValue={utils.isAddress(userAddress) ? chains[0] : ""}
+                defaultValue={ethers.isAddress(userAddress) ? chains[0] : ""}
                 isMulti
                 className="w--[50%]"
                 placeholder="Select chain"
@@ -209,11 +210,11 @@ const Home: NextPage = () => {
                   setSelectedChains(value as any);
                   setActiveTab(value.length - 1);
                 }}
-                isDisabled={!utils.isAddress(userAddress)}
+                isDisabled={!ethers.isAddress(userAddress)}
               />
             )}
 
-            {utils.isAddress(userAddress) && (
+            {ethers.isAddress(userAddress) && (
               <div className="flex flex-col items-center">
                 <div>
                   <span className="text-gray-400 text-xs">Also available here</span>
