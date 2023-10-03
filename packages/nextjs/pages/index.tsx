@@ -316,7 +316,7 @@ const Home: NextPage = () => {
               <div className="badge badge-primary">Tokens</div>
               <div className="m-5 flex flex-wrap">
                 {tokenData &&
-                  tokenData.map((item: any, index: any) => {
+                  tokenData.map((item: any) => {
                     return (
                       <div key={item.contract_name} className="m-2">
                         <div className="stats shadow">
