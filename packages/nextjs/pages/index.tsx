@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Client, NftTokenContractBalanceItem } from "@covalenthq/client-sdk";
 import { format } from "date-fns";
+//@ts-ignore
 import { utils } from "ethers";
 import type { NextPage } from "next";
 import QRCode from "qrcode.react";
