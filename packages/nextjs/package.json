@@ -14,6 +14,7 @@
     "vercel:yolo": "vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true"
   },
   "dependencies": {
+    "@covalenthq/client-sdk": "^0.2.9",
     "@ethersproject/providers": "^5.7.2",
     "@heroicons/react": "^2.0.11",
     "@rainbow-me/rainbowkit": "1.0.8",
@@ -21,6 +22,7 @@
     "@uniswap/v2-sdk": "^3.0.1",
     "blo": "^1.0.1",
     "daisyui": "^3.5.1",
+    "date-fns": "^2.30.0",
     "next": "^13.1.6",
     "nextjs-progressbar": "^0.0.16",
     "qrcode.react": "^3.1.0",
@@ -29,6 +31,7 @@
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.3.5",
     "react-hot-toast": "^2.4.0",
+    "react-select": "^5.7.5",
     "use-debounce": "^8.0.4",
     "usehooks-ts": "^2.7.2",
     "viem": "^1.6.7",
