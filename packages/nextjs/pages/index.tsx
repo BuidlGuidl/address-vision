@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Client, NftTokenContractBalanceItem } from "@covalenthq/client-sdk";
 import { format } from "date-fns";
-import { ethers } from "ethers";
+import { utils } from "ethers";
 import type { NextPage } from "next";
 import QRCode from "qrcode.react";
 import Select from "react-select";
@@ -9,25 +9,6 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { AddressInput } from "~~/components/scaffold-eth";
 
 const COVALENT_TOKEN = process.env.NEXT_PUBLIC_COVALENT_TOKEN as string;
-
-// const tokenData = [
-//   {
-//     contract_name: "ETH",
-//     logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
-//     type: "cryptocurrency",
-//     quote: 199999,
-//     pretty_quote: "$99999",
-//     last_transferred_at: "2023-01-01",
-//   },
-//   {
-//     contract_name: "USD",
-//     logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
-//     type: "stablecoin",
-//     quote: 199999,
-//     pretty_quote: "$99999",
-//     last_transferred_at: "2023-01-01",
-//   },
-// ];
 
 const Home: NextPage = () => {
   const [chains, setChains] = useState<any[]>([]);
@@ -43,55 +24,55 @@ const Home: NextPage = () => {
   const loadChains = async () => {
     const client = new Client(COVALENT_TOKEN);
     setClient(client);
-    // const resp = await client.BaseService.getAllChains();
+    const resp = await client.BaseService.getAllChains();
     // mock data
-    const resp = {
-      data: {
-        items: [
-          {
-            name: "eth-mainnet",
-            chain_id: "1",
-            is_testnet: false,
-            db_schema_name: "chain_eth_mainnet",
-            label: "Ethereum Mainnet",
-            category_label: "Ethereum",
-            logo_url: "https://www.datocms-assets.com/86369/1669653891-eth.svg",
-            black_logo_url: "https://www.datocms-assets.com/86369/1669619544-ethereum.png",
-            white_logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
-            is_appchain: false,
-            appchain_of: null,
-          },
+    // const resp = {
+    //   data: {
+    //     items: [
+    //       {
+    //         name: "eth-mainnet",
+    //         chain_id: "1",
+    //         is_testnet: false,
+    //         db_schema_name: "chain_eth_mainnet",
+    //         label: "Ethereum Mainnet",
+    //         category_label: "Ethereum",
+    //         logo_url: "https://www.datocms-assets.com/86369/1669653891-eth.svg",
+    //         black_logo_url: "https://www.datocms-assets.com/86369/1669619544-ethereum.png",
+    //         white_logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
+    //         is_appchain: false,
+    //         appchain_of: null,
+    //       },
 
-          {
-            name: "eth-sepolia",
-            chain_id: "11155111",
-            is_testnet: true,
-            db_schema_name: "chain_eth_sepolia",
-            label: "Ethereum Sepolia Testnet",
-            category_label: "Ethereum",
-            logo_url: "https://www.datocms-assets.com/86369/1669653891-eth.svg",
-            black_logo_url: "https://www.datocms-assets.com/86369/1669619544-ethereum.png",
-            white_logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
-            is_appchain: false,
-            appchain_of: null,
-          },
+    //       {
+    //         name: "eth-sepolia",
+    //         chain_id: "11155111",
+    //         is_testnet: true,
+    //         db_schema_name: "chain_eth_sepolia",
+    //         label: "Ethereum Sepolia Testnet",
+    //         category_label: "Ethereum",
+    //         logo_url: "https://www.datocms-assets.com/86369/1669653891-eth.svg",
+    //         black_logo_url: "https://www.datocms-assets.com/86369/1669619544-ethereum.png",
+    //         white_logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
+    //         is_appchain: false,
+    //         appchain_of: null,
+    //       },
 
-          {
-            name: "eth-goerli",
-            chain_id: "5",
-            is_testnet: true,
-            db_schema_name: "chain_eth_goerli",
-            label: "Ethereum Goerli Testnet",
-            category_label: "Ethereum",
-            logo_url: "https://www.datocms-assets.com/86369/1669653891-eth.svg",
-            black_logo_url: "https://www.datocms-assets.com/86369/1669619544-ethereum.png",
-            white_logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
-            is_appchain: false,
-            appchain_of: null,
-          },
-        ],
-      },
-    };
+    //       {
+    //         name: "eth-goerli",
+    //         chain_id: "5",
+    //         is_testnet: true,
+    //         db_schema_name: "chain_eth_goerli",
+    //         label: "Ethereum Goerli Testnet",
+    //         category_label: "Ethereum",
+    //         logo_url: "https://www.datocms-assets.com/86369/1669653891-eth.svg",
+    //         black_logo_url: "https://www.datocms-assets.com/86369/1669619544-ethereum.png",
+    //         white_logo_url: "https://www.datocms-assets.com/86369/1669619533-ethereum.png",
+    //         is_appchain: false,
+    //         appchain_of: null,
+    //       },
+    //     ],
+    //   },
+    // };
     if (resp.data) {
       const chainItems = resp.data.items;
       const chains: any[] = [];
@@ -163,7 +144,7 @@ const Home: NextPage = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    if (ethers.isAddress(userAddress)) {
+    if (utils.isAddress(userAddress)) {
       setSelectedChains([
         {
           chain_id: "1",
@@ -176,6 +157,14 @@ const Home: NextPage = () => {
       getNftData(0);
     }
   }, [userAddress]);
+
+  if (COVALENT_TOKEN === undefined) {
+    return (
+      <div className="flex items-center flex-col flex-grow pt-5 ">
+        <span className="alert alert-error w-[50%]">Please add covalent api key</span>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -193,16 +182,14 @@ const Home: NextPage = () => {
 
         <div className="w-[100%] flex justify-end items-center ">
           <div className="w--[50%] ml-auto m-2">
-            <div>
-              {ethers.isAddress(userAddress) && <QRCode value={"0xAFFA9D3B59E4dF3e7F7F4DD711CCc55C8e6237da"} />}
-            </div>
+            <div>{utils.isAddress(userAddress) && <QRCode value={"0xAFFA9D3B59E4dF3e7F7F4DD711CCc55C8e6237da"} />}</div>
           </div>
           <div className="w-[50%] mr-[25%]">
             {chains.length > 0 && (
               <Select
-                key={ethers.isAddress(userAddress) ? userAddress : ""}
+                key={utils.isAddress(userAddress) ? userAddress : ""}
                 options={chains}
-                defaultValue={ethers.isAddress(userAddress) ? chains[0] : ""}
+                defaultValue={utils.isAddress(userAddress) ? chains[0] : ""}
                 isMulti
                 className="w--[50%]"
                 placeholder="Select chain"
@@ -210,11 +197,11 @@ const Home: NextPage = () => {
                   setSelectedChains(value as any);
                   setActiveTab(value.length - 1);
                 }}
-                isDisabled={!ethers.isAddress(userAddress)}
+                isDisabled={!utils.isAddress(userAddress)}
               />
             )}
 
-            {ethers.isAddress(userAddress) && (
+            {utils.isAddress(userAddress) && (
               <div className="flex flex-col items-center">
                 <div>
                   <span className="text-gray-400 text-xs">Also available here</span>
