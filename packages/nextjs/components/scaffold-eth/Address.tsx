@@ -12,7 +12,7 @@ type TAddressProps = {
   address?: string;
   disableAddressLink?: boolean;
   format?: "short" | "long";
-  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
+  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 };
 
 const blockieSizeMap = {
@@ -23,6 +23,7 @@ const blockieSizeMap = {
   xl: 10,
   "2xl": 12,
   "3xl": 15,
+  "4xl": 20,
 };
 
 /**
@@ -123,10 +124,7 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
         </a>
       )}
       {addressCopied ? (
-        <CheckCircleIcon
-          className="ml-1.5 text-xl font-normal text-sky-600 h-5 w-5 cursor-pointer"
-          aria-hidden="true"
-        />
+        <CheckCircleIcon className="ml-1  font-normal text-neutral h-4 w-4 cursor-pointer" aria-hidden="true" />
       ) : (
         <CopyToClipboard
           text={address}
@@ -137,10 +135,7 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
             }, 800);
           }}
         >
-          <DocumentDuplicateIcon
-            className="ml-1.5 text-xl font-normal text-sky-600 h-5 w-5 cursor-pointer"
-            aria-hidden="true"
-          />
+          <DocumentDuplicateIcon className="ml-1 font-normal text-neutral h-4 w-4 cursor-pointer" aria-hidden="true" />
         </CopyToClipboard>
       )}
     </div>
