@@ -20,12 +20,12 @@ const MENUS = {
 };
 
 const transformForRecharts = (rawData: any) => {
-  const transformedData = rawData.reduce((acc, curr) => {
-    const singleTokenTimeSeries = curr.holdings.map(holdingsItem => {
+  const transformedData = rawData.reduce((acc: any, curr: any) => {
+    const singleTokenTimeSeries = curr.holdings.map((holdingsItem: any) => {
       // Formatting the date string just a little...
       const dateStr = holdingsItem.timestamp;
       const date = new Date(dateStr);
-      const options = {
+      const options: any = {
         day: "numeric",
         month: "short",
       };
@@ -35,7 +35,7 @@ const transformForRecharts = (rawData: any) => {
         [curr.contract_ticker_symbol]: holdingsItem.close.quote,
       };
     });
-    const newArr = singleTokenTimeSeries.map((item, i) => Object.assign(item, acc[i]));
+    const newArr = singleTokenTimeSeries.map((item: any, i: any) => Object.assign(item, acc[i]));
     return newArr;
   }, []);
   return transformedData;
