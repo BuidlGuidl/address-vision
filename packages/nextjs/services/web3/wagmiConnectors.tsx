@@ -19,13 +19,23 @@ const configuredNetwork = getTargetNetwork();
 const { onlyLocalBurnerWallet } = scaffoldConfig;
 
 // We always want to have mainnet enabled (ENS resolution, ETH price, etc). But only once.
-const enabledChains = configuredNetwork.id === 1 ? [configuredNetwork] : [configuredNetwork, chains.mainnet];
+// const enabledChains = configuredNetwork.id === 1 ? [configuredNetwork] : [configuredNetwork, chains.mainnet];
 
 /**
  * Chains for the app
  */
 export const appChains = configureChains(
-  enabledChains,
+  [
+    chains.mainnet,
+    chains.optimism,
+    chains.arbitrum,
+    chains.base,
+    chains.gnosis,
+    chains.goerli,
+    chains.polygon,
+    chains.sepolia,
+    chains.zkSync,
+  ],
   [
     alchemyProvider({
       apiKey: scaffoldConfig.alchemyApiKey,
