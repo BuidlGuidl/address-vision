@@ -2,9 +2,11 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { AddressInput } from "./scaffold-eth";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 // import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
+import { useGlobalState } from "~~/services/store/store";
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   const router = useRouter();
@@ -33,6 +35,9 @@ export const Header = () => {
     burgerMenuRef,
     useCallback(() => setIsDrawerOpen(false), []),
   );
+
+  const userAddress = useGlobalState(state => state.userAddress);
+  const setUserAddress = useGlobalState(state => state.setUserAddress);
 
   const navLinks = (
     <>
@@ -95,6 +100,15 @@ export const Header = () => {
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">{navLinks}</ul>
+      </div>
+      <div>
+        <AddressInput
+          placeholder="Enter address"
+          value={userAddress}
+          onChange={value => {
+            setUserAddress(value);
+          }}
+        />
       </div>
       <div className="navbar-end flex-grow mr-4">
         {/* <RainbowKitCustomConnectButton /> */}
