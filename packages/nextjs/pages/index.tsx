@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import data from "./api/data";
 import { Client, NftTokenContractBalanceItem } from "@covalenthq/client-sdk";
 import axios from "axios";
 import { format } from "date-fns";
@@ -10,7 +9,6 @@ import Select from "react-select";
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { ChartBarIcon, PhotoIcon, WalletIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
-import { AddressInput } from "~~/components/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
 import { GRAPH_COLORS } from "~~/utils/constant";
 
@@ -59,7 +57,7 @@ const Home: NextPage = () => {
   const [chartData, setChartData] = useState<any[]>(undefined as any);
   const [chartKeys, setChartKeys] = useState<any[]>(undefined as any);
 
-  const [isLoadingNfts, setIsLoadingNfts] = useState<boolean>(false);
+  // const [isLoadingNfts, setIsLoadingNfts] = useState<boolean>(false);
   const [isLoadingPortfolioData, setIsLoadingPortfolioData] = useState<boolean>(false);
   const [isLoadingStats, setIsLoadingStats] = useState<boolean>(false);
 
@@ -146,11 +144,11 @@ const Home: NextPage = () => {
 
   const getNftData = async (activeTab: number) => {
     if (client) {
-      setIsLoadingNfts(true);
+      // setIsLoadingNfts(true);
       const chainName = selectedChains.length > 0 ? selectedChains[activeTab].value : "eth-mainnet";
       const resp = await client.NftService.getNftsForAddress(chainName, userAddress);
       if (resp.error_code === 400) {
-        setIsLoadingNfts(false);
+        // setIsLoadingNfts(false);
         setNftData([]);
       }
       if (resp.data) {
@@ -166,13 +164,13 @@ const Home: NextPage = () => {
 
           return item;
         });
-        setIsLoadingNfts(false);
+        // setIsLoadingNfts(false);
 
         const nftItems = [...items].filter(item => item.contract_name !== null);
         setNftData([...nftItems]);
 
         setAddressStats((prevAddressStats: any) => ({ ...prevAddressStats, nftCount: nftItems.length }));
-        setIsLoadingNfts(false);
+        // setIsLoadingNfts(false);
       }
     }
   };
