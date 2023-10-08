@@ -3,7 +3,7 @@ import { Address } from "viem";
 
 export const QRCodeCard = ({ someAddress }: { someAddress: Address }) => {
   return (
-    <div className="card w-full md:w-[425px] bg-base-100 shadow-xl">
+    <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl">
       <div className="card-body flex items-center justify-center">
         {someAddress ? (
           <>
