@@ -109,15 +109,15 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
 
   if (someAddress && isValidEnsOrAddress(someAddress)) {
     return (
-      <div className="card w-[425px] bg-base-100 shadow-xl flex-grow">
+      <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl flex-grow">
         <div className="card-body">
           <h2 className="card-title whitespace-nowrap">
             <AddressComp address={someAddress} /> on {chain.name}
           </h2>
           <h3 className="font-bold">NFTs</h3>
           {nfts.length > 0 ? (
-            <div className="flex flex-col relative">
-              <div className="carousel carousel-center max-w-md p-4 space-x-4 bg-secondary rounded-box">
+            <div className="relative flex flex-col">
+              <div className="carousel carousel-center rounded-box max-w-md space-x-4 bg-secondary p-4">
                 {nfts.map((nft, index) => (
                   <div className="carousel-item" key={index}>
                     <a
@@ -126,12 +126,12 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
                       }`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-32 w-32 flex justify-center items-center"
+                      className="flex h-32 w-32 items-center justify-center"
                     >
-                      <div className="h-full w-full flex justify-center items-center">
+                      <div className="flex h-full w-full items-center justify-center">
                         <Image
                           src={nft.imageUrl}
-                          className="rounded-box object-contain h-full w-full"
+                          className="rounded-box h-full w-full object-contain"
                           alt={`NFT ${index}`}
                           width={128}
                           height={128}
@@ -164,7 +164,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
           )}
           <h3 className="mt-4 font-bold">Tokens</h3>
           {tokenBalances.length > 0 ? (
-            <div className="overflow-x-auto max-h-48">
+            <div className="max-h-48 overflow-x-auto">
               <table className="table table-zebra">
                 <thead>
                   <tr>
@@ -198,7 +198,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
         <div className="card-body">
           <h2 className="card-title">See someone on ??????????</h2>
           <p>some text</p>
-          <div className="card-actions justify-end flex items-center text-xl p-4">
+          <div className="card-actions flex items-center justify-end p-4 text-xl">
             Balance: <p>search for an address</p>
           </div>
         </div>

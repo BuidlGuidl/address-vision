@@ -37,16 +37,21 @@ const Home: NextPage = () => {
       </div>
 
       {someAddress ? (
-        <div className="mt-4 flex w-full flex-grow flex-col items-center gap-4 p-4">
+        <div className="flex w-full flex-grow flex-col items-center gap-4 p-4 md:mt-4">
           <div className="flex flex-wrap">
             <div className="w-full flex-wrap space-y-4 p-4 sm:w-1/2 lg:w-1/3">
-              <div className="card w-[425px] bg-base-100 shadow-xl flex flex-col">
+              <div className="card md:w-[425px] bg-base-100 shadow-xl flex flex-col">
                 <div className="card-body flex-grow pb-0">
                   <h2 className="card-title">
                     {someAddress && (
-                      <div>
-                        <Address address={someAddress} size="4xl" />
-                      </div>
+                      <>
+                        <div className="hidden md:block">
+                          <Address address={someAddress} size="4xl" />
+                        </div>
+                        <div className="block md:hidden">
+                          <Address address={someAddress} size="3xl" />
+                        </div>
+                      </>
                     )}
                   </h2>
                 </div>
@@ -62,7 +67,7 @@ const Home: NextPage = () => {
               <div className="sm:block md:hidden lg:hidden">
                 <QRCodeCard someAddress={someAddress} />
               </div>
-              <div className="card w-[425px] bg-base-100 shadow-xl">
+              <div className="card md:w-[425px] bg-base-100 shadow-xl">
                 <div className="card-body">
                   <h2 className="card-title">
                     See
