@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <meta name="description" content="address vision" />
       </Head>
       <div className="navbar sticky top-0 z-20 grid min-h-0 flex-shrink-0 grid-cols-12 justify-between bg-base-100 px-0 shadow-md shadow-secondary sm:px-2 lg:static">
-        <div className="col-start-1 col-end-3 flex flex-row items-center">
+        <div className="col-start-4 flex flex-row items-center md:col-start-1 md:col-end-3">
           <div className="mb-4 text-4xl">👀</div>
           <h1 className="ml-2 text-2xl font-bold">address.vision</h1>
         </div>
