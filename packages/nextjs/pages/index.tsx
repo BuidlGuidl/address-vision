@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
-import { QRCodeSVG } from "qrcode.react";
 import { isAddress } from "viem";
 import * as chains from "wagmi/chains";
 import { NetworkCard } from "~~/components/address-vision/NetworkCard";
+import { QRCodeCard } from "~~/components/address-vision/QRCodeCard";
 import { Address, AddressInput, Balance } from "~~/components/scaffold-eth";
 
 // @todo add chain logos to cards for better UX
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
       {someAddress ? (
         <div className="flex w-full items-center flex-col flex-grow p-4 mt-4 gap-4">
           <div className="flex flex-wrap">
-            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4">
+            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4 flex-wrap">
               <div className="card w-[425px] bg-base-100 shadow-xl flex flex-col">
                 <div className="card-body flex-grow pb-0">
                   <h2 className="card-title">
@@ -59,7 +59,9 @@ const Home: NextPage = () => {
                   )}
                 </div>
               </div>
-
+              <div className="sm:block md:hidden lg:hidden">
+                <QRCodeCard someAddress={someAddress} />
+              </div>
               <div className="card w-[425px] bg-base-100 shadow-xl">
                 <div className="card-body">
                   <h2 className="card-title">
@@ -137,26 +139,29 @@ const Home: NextPage = () => {
                   </div>
                 </div>
               </div>
+
               <NetworkCard someAddress={someAddress} chain={chains.arbitrum} />
+              <div className="lg:hidden">
+                <NetworkCard someAddress={someAddress} chain={chains.polygon} />
+              </div>
               <NetworkCard someAddress={someAddress} chain={chains.base} />
+              <div className="sm:block md:hidden lg:hidden space-y-4">
+                <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
+
+                <NetworkCard someAddress={someAddress} chain={chains.polygon} />
+                <NetworkCard someAddress={someAddress} chain={chains.optimism} />
+              </div>
             </div>
 
-            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4">
-              <div className="card w-[425px] bg-base-100 shadow-xl">
-                <div className="card-body flex justify-center items-center ">
-                  {someAddress ? (
-                    <div className="flex flex-col">
-                      <QRCodeSVG value={someAddress} size={350} />
-                    </div>
-                  ) : (
-                    <div>QR code will appear here</div>
-                  )}
-                </div>
+            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4 sm:hidden md:block lg:block">
+              <QRCodeCard someAddress={someAddress} />
+              <div className="lg:hidden">
+                <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
               </div>
               <NetworkCard someAddress={someAddress} chain={chains.optimism} />
             </div>
 
-            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4">
+            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4 sm:hidden md:hidden lg:block">
               <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
 
               <NetworkCard someAddress={someAddress} chain={chains.polygon} />
