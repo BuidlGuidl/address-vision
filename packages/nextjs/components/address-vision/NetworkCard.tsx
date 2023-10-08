@@ -105,6 +105,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
       getNfts();
       getTokens();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [someAddress]);
 
   if (someAddress && isValidEnsOrAddress(someAddress)) {
@@ -117,7 +118,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
           <h3 className="font-bold">NFTs</h3>
           {nfts.length > 0 ? (
             <div className="relative flex flex-col">
-              <div className="carousel carousel-center rounded-box max-w-md space-x-4 bg-secondary p-4">
+              <div className="carousel-center carousel rounded-box max-w-md space-x-4 bg-secondary p-4">
                 {nfts.map((nft, index) => (
                   <div className="carousel-item" key={index}>
                     <a

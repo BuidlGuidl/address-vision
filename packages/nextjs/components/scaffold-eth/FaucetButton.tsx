@@ -19,7 +19,7 @@ const localWalletClient = createWalletClient({
  */
 export const FaucetButton = () => {
   const { address } = useAccount();
-  const { balance } = useAccountBalance(address);
+  const { balance } = useAccountBalance(undefined, address);
 
   const { chain: ConnectedChain } = useNetwork();
 
@@ -57,7 +57,7 @@ export const FaucetButton = () => {
       }
       data-tip="Grab funds from faucet"
     >
-      <button className="btn btn-secondary btn-sm px-2 rounded-full" onClick={sendETH} disabled={loading}>
+      <button className="btn btn-secondary btn-sm rounded-full px-2" onClick={sendETH} disabled={loading}>
         {!loading ? (
           <BanknotesIcon className="h-4 w-4" />
         ) : (

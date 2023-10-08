@@ -3,7 +3,7 @@ import { useBalance } from "wagmi";
 import * as chains from "wagmi/chains";
 import { useGlobalState } from "~~/services/store/store";
 
-export function useAccountBalance(targetNetwork: chains.Chain, address?: string) {
+export function useAccountBalance(targetNetwork: chains.Chain = chains.mainnet, address?: string) {
   const [isEthBalance, setIsEthBalance] = useState(true);
   const [balance, setBalance] = useState<number | null>(null);
   const price = useGlobalState(state => state.nativeCurrencyPrice);
