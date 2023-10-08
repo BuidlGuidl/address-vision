@@ -19,12 +19,12 @@ const Home: NextPage = () => {
         <title>address.vision</title>
         <meta name="description" content="address vision" />
       </Head>
-      <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2 grid grid-cols-12">
+      <div className="navbar sticky top-0 z-20 grid min-h-0 flex-shrink-0 grid-cols-12 justify-between bg-base-100 px-0 shadow-md shadow-secondary sm:px-2 lg:static">
         <div className="col-start-1 col-end-3 flex flex-row items-center">
-          <div className="text-4xl mb-4">👀</div>
+          <div className="mb-4 text-4xl">👀</div>
           <h1 className="ml-2 text-2xl font-bold">address.vision</h1>
         </div>
-        <div className="col-start-2 col-end-12 md:col-start-4 md:col-end-10 flex justify-center row-start-2 md:row-auto">
+        <div className="col-start-2 col-end-12 row-start-2 flex justify-center md:col-start-4 md:col-end-10 md:row-auto">
           <div className="flex-grow">
             <AddressInput
               placeholder="Enter an Ethereum address or ENS name to get started"
@@ -37,9 +37,9 @@ const Home: NextPage = () => {
       </div>
 
       {someAddress ? (
-        <div className="flex w-full items-center flex-col flex-grow p-4 mt-4 gap-4">
+        <div className="mt-4 flex w-full flex-grow flex-col items-center gap-4 p-4">
           <div className="flex flex-wrap">
-            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4 flex-wrap">
+            <div className="w-full flex-wrap space-y-4 p-4 sm:w-1/2 lg:w-1/3">
               <div className="card w-[425px] bg-base-100 shadow-xl flex flex-col">
                 <div className="card-body flex-grow pb-0">
                   <h2 className="card-title">
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
                     )}
                   </h2>
                 </div>
-                <div className="card-actions justify-end flex items-center text-xl p-4">
+                <div className="card-actions flex items-center justify-end p-4 text-xl">
                   Balance:{" "}
                   {someAddress && isValidEnsOrAddress(someAddress) ? (
                     <Balance address={someAddress} targetNetwork={chains.mainnet} className="text-2xl" />
@@ -75,9 +75,9 @@ const Home: NextPage = () => {
                     )}
                     on
                   </h2>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
                     <button
-                      className="btn btn-xs btn-primary rounded-full"
+                      className="btn btn-primary btn-xs rounded-full"
                       title="View on Etherscan"
                       tabIndex={1}
                       onClick={() => {
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
                       Etherscan
                     </button>
                     <button
-                      className="btn btn-xs btn-primary rounded-full"
+                      className="btn btn-primary btn-xs rounded-full"
                       title="View on Blockscan"
                       tabIndex={2}
                       onClick={() => {
@@ -97,7 +97,7 @@ const Home: NextPage = () => {
                       Blockscan
                     </button>
                     <button
-                      className="btn btn-xs btn-primary rounded-full"
+                      className="btn btn-primary btn-xs rounded-full"
                       title="View on Optimistic Etherscan"
                       tabIndex={3}
                       onClick={() => {
@@ -107,7 +107,7 @@ const Home: NextPage = () => {
                       Op Etherscan
                     </button>
                     <button
-                      className="btn btn-xs btn-primary rounded-full"
+                      className="btn btn-primary btn-xs rounded-full"
                       title="View on Zerion"
                       tabIndex={4}
                       onClick={() => {
@@ -117,7 +117,7 @@ const Home: NextPage = () => {
                       Zerion
                     </button>
                     <button
-                      className="btn btn-xs btn-primary rounded-full"
+                      className="btn btn-primary btn-xs rounded-full"
                       title="View on Zapper"
                       tabIndex={5}
                       onClick={() => {
@@ -127,7 +127,7 @@ const Home: NextPage = () => {
                       Zapper
                     </button>
                     <button
-                      className="btn btn-xs btn-primary rounded-full"
+                      className="btn btn-primary btn-xs rounded-full"
                       title="View on Safe"
                       tabIndex={6}
                       onClick={() => {
@@ -145,7 +145,7 @@ const Home: NextPage = () => {
                 <NetworkCard someAddress={someAddress} chain={chains.polygon} />
               </div>
               <NetworkCard someAddress={someAddress} chain={chains.base} />
-              <div className="sm:block md:hidden lg:hidden space-y-4">
+              <div className="space-y-4 sm:block md:hidden lg:hidden">
                 <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
 
                 <NetworkCard someAddress={someAddress} chain={chains.polygon} />
@@ -153,7 +153,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4 sm:hidden md:block lg:block">
+            <div className="w-full space-y-4 p-4 sm:hidden sm:w-1/2 md:block lg:block lg:w-1/3">
               <QRCodeCard someAddress={someAddress} />
               <div className="lg:hidden">
                 <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
@@ -161,7 +161,7 @@ const Home: NextPage = () => {
               <NetworkCard someAddress={someAddress} chain={chains.optimism} />
             </div>
 
-            <div className="w-full sm:w-1/2 lg:w-1/3 p-4 space-y-4 sm:hidden md:hidden lg:block">
+            <div className="w-full space-y-4 p-4 sm:hidden sm:w-1/2 md:hidden lg:block lg:w-1/3">
               <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
 
               <NetworkCard someAddress={someAddress} chain={chains.polygon} />
@@ -169,10 +169,10 @@ const Home: NextPage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center flex-grow relative">
-          <div className="text-9xl mb-4">👀</div>
-          <h1 className="text-4xl font-bold mb-4">Welcome to address.vision!</h1>
-          <p className="text-xl mb-4">To get started, enter an Ethereum address or ENS name in the search bar above.</p>
+        <div className="relative flex flex-grow flex-col items-center justify-center">
+          <div className="mb-4 text-9xl">👀</div>
+          <h1 className="mb-4 text-4xl font-bold">Welcome to address.vision!</h1>
+          <p className="mb-4 text-xl">To get started, enter an Ethereum address or ENS name in the search bar above.</p>
         </div>
       )}
     </>
