@@ -24,7 +24,7 @@ const Home: NextPage = () => {
           <div className="text-4xl mb-4">👀</div>
           <h1 className="ml-2 text-2xl font-bold">address.vision</h1>
         </div>
-        <div className="col-start-4 col-end-10 flex justify-center">
+        <div className="col-start-2 col-end-12 md:col-start-4 md:col-end-10 flex justify-center row-start-2 md:row-auto">
           <div className="flex-grow">
             <AddressInput
               placeholder="Enter an Ethereum address or ENS name to get started"
