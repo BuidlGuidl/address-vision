@@ -11950,6 +11950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< Naim-dev
 "react-resize-detector@npm:^8.0.4":
   version: 8.1.0
   resolution: "react-resize-detector@npm:8.1.0"
@@ -11962,6 +11963,8 @@ __metadata:
   languageName: node
   linkType: hard
 
+=======
+>>>>>>> Naim-dev
 "react-select@npm:^5.7.7":
   version: 5.7.7
   resolution: "react-select@npm:5.7.7"
@@ -15036,3 +15039,4 @@ __metadata:
   checksum: fc443abf5bc9deac0d4e375847e7914e44c7ffc9f7f09b60e466cb9bbbcf5a46706bf2f9c8b9e6e6c9a1c5aea0bd6123cbf9fbcd39788ae27d8494d505969ae8
   languageName: node
   linkType: hard
+
