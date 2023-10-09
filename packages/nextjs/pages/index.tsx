@@ -134,6 +134,11 @@ const Home: NextPage = () => {
       });
       if (resp.error_code === 400) {
         setTokenData([]);
+        setAddressStats({
+          txCount: 0,
+          gasUsed: 0,
+          nftCount: 0,
+        });
       }
       if (resp.data) {
         // const items = resp.data.items.filter(item => Boolean(item.quote) !== false);
@@ -151,6 +156,11 @@ const Home: NextPage = () => {
       if (resp.error_code === 400) {
         // setIsLoadingNfts(false);
         setNftData([]);
+        setAddressStats({
+          txCount: 0,
+          gasUsed: 0,
+          nftCount: 0,
+        });
       }
       if (resp.data) {
         // const items = resp.data.items.map(item => {
@@ -186,6 +196,11 @@ const Home: NextPage = () => {
         quoteCurrency: "USD",
       });
       if (resp.error_code === 400) {
+        setAddressStats({
+          txCount: 0,
+          gasUsed: 0,
+          nftCount: 0,
+        });
       }
       if (resp.data) {
         const rawData = resp.data.items;
