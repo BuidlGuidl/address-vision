@@ -374,7 +374,7 @@ const Home: NextPage = () => {
         {utils.isAddress(userAddress) && addressStats && (
           <div className="mt-2">
             <div className={`stats lg:stats-horizontal shadow w-[100%] ${isLoadingStats ? "blur" : ""}`}>
-              {addressStats["gasUsed"] && (
+              {addressStats["gasUsed"] !== undefined && (
                 <div className="stat">
                   <div className="stat-title">Total Gas</div>
                   <div className="stat-value">${addressStats["gasUsed"]}</div>
@@ -680,4 +680,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
