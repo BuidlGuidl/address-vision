@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Address as AddressComp } from "../scaffold-eth";
@@ -67,7 +67,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
 
       if (data.nfts && data.nfts.length > 0) {
         const nftData = [];
-        for (let i = 0; i < Math.min(5, data.nfts.length); i++) {
+        for (let i = 0; i < Math.min(10, data.nfts.length); i++) {
           const nft = data.nfts[i];
           if (nft.image_url && nft.identifier !== "0") {
             nftData.push({
@@ -110,6 +110,21 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [someAddress]);
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  // Functions to handle button clicks
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
 
   if (loading) {
     return (
@@ -184,7 +199,18 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
           <h3 className="font-bold">NFTs</h3>
           {nfts.length > 0 ? (
             <div className="relative flex flex-col">
-              <div className="carousel-center carousel rounded-box max-w-md space-x-4 bg-secondary p-4">
+              <div className="absolute flex justify-between transform -translate-y-1/2 left-3 right-3 top-1/2">
+                <button onClick={scrollLeft} className="btn btn-sm btn-circle opacity-60">
+                  ❮
+                </button>
+                <button onClick={scrollRight} className="btn btn-sm btn-circle opacity-60">
+                  ❯
+                </button>
+              </div>
+              <div
+                ref={carouselRef}
+                className="carousel-center carousel rounded-box max-w-md space-x-4 bg-secondary p-4"
+              >
                 {nfts.map((nft, index) => (
                   <div className="carousel-item" key={index}>
                     <a
@@ -208,7 +234,6 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
                   </div>
                 ))}
               </div>
-
               <div className="self-end flex gap-2 absolute bottom-[-35px] right-3">
                 <p className="text-xs">See more on </p>
                 <Link
