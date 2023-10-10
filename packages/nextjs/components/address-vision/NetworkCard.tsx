@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Address as AddressComp } from "../scaffold-eth";
+import { TokensTable } from "./TokensTable";
 import { CovalentClient } from "@covalenthq/client-sdk";
 import { useDarkMode } from "usehooks-ts";
-import { Address, formatEther, isAddress } from "viem";
+import { Address, isAddress } from "viem";
 import { Chain } from "wagmi";
 import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 
@@ -271,30 +272,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
             <p>No NFTs found.</p>
           )}
           <h3 className="mt-4 font-bold">Tokens</h3>
-          {filteredTokens.length > 0 ? (
-            <div className="max-h-48 overflow-x-auto">
-              <table className="table table-zebra">
-                <thead>
-                  <tr>
-                    <th>Token</th>
-                    <th>Balance</th>
-                    <th>Balance in USD</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTokens.map((token, index) => (
-                    <tr key={index}>
-                      <td>{`${token.contract_name} (${token.contract_ticker_symbol})`}</td>
-                      <td>{Number(formatEther(token.balance)).toFixed(2)}</td>
-                      <td>≈${token.quote.toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No tokens found.</p>
-          )}
+          <TokensTable tokens={filteredTokens} />
         </div>
       </div>
     );
