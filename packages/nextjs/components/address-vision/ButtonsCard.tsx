@@ -1,7 +1,31 @@
 import { Address as AddressComp } from "../scaffold-eth";
-import { Address } from "viem";
+import { Address, isAddress } from "viem";
 
 export const ButtonsCard = ({ address }: { address: Address }) => {
+  if (!isAddress(address)) {
+    return (
+      <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl">
+        <div className="card-body">
+          <h2 className="card-title">
+            See
+            <div className="flex items-center space-x-4">
+              <div className="rounded-md bg-slate-300 h-6 w-6"></div>
+              <div className="h-2 w-28 bg-slate-300 rounded"></div>
+            </div>
+            on
+          </h2>
+          <div className="animate-pulse">
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
+              {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="h-6 w-28 bg-slate-300 rounded-full"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl">
       <div className="card-body">
