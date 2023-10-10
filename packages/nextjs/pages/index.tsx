@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
 import * as chains from "wagmi/chains";
-import { AddressCard } from "~~/components/address-vision/AddressCard";
-import { ButtonsCard } from "~~/components/address-vision/ButtonsCard";
-import { NetworkCard } from "~~/components/address-vision/NetworkCard";
-import { QRCodeCard } from "~~/components/address-vision/QRCodeCard";
+import { AddressCard, ButtonsCard, NetworkCard, QRCodeCard } from "~~/components/address-vision/";
 import { AddressInput } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
