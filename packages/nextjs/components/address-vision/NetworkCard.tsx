@@ -49,6 +49,7 @@ const getChainNameForCovalent = (id: number) => {
 export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chain: Chain }) => {
   const [nfts, setNfts] = useState<any[]>([]);
   const [tokenBalances, setTokenBalances] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const { isDarkMode } = useDarkMode();
 
   const getNfts = async () => {
@@ -96,9 +97,11 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
       const filteredTokens = res.data.items ? res.data.items.filter(token => token.quote !== 0) : [];
       setTokenBalances(filteredTokens);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
     setNfts([]);
     setTokenBalances([]);
     if (someAddress && isAddress(someAddress)) {
@@ -107,6 +110,61 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [someAddress]);
+
+  if (loading) {
+    return (
+      <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl flex-grow animate-pulse">
+        <div className="card-body">
+          <div className="flex items-center space-x-4">
+            <div className="rounded-md bg-slate-300 h-6 w-6"></div>
+            <div className="h-2 w-28 bg-slate-300 rounded"></div>
+          </div>
+
+          <h3 className="font-bold mt-4">NFTs</h3>
+          <div className="relative flex flex-col">
+            <div className="carousel-center carousel rounded-box max-w-md space-x-4 bg-secondary p-4">
+              <div className="carousel-item">
+                <div className="rounded-md bg-slate-300 h-32 w-32"></div>
+              </div>
+              <div className="carousel-item">
+                <div className="rounded-md bg-slate-300 h-32 w-32"></div>
+              </div>
+              <div className="carousel-item">
+                <div className="rounded-md bg-slate-300 h-32 w-32"></div>
+              </div>
+            </div>
+          </div>
+
+          <h3 className="font-bold mt-4">Tokens</h3>
+          <div className="max-h-48 overflow-x-auto">
+            <table className="table table-zebra">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Balance</th>
+                  <th>Balance in USD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="h-2 w-28 bg-slate-300"></td>
+                  <td className="h-2 w-16 bg-slate-300"></td>
+                  <td className="h-2 w-20 bg-slate-300"></td>
+                </tr>
+                <tr>
+                  <td className="h-2 w-28 bg-slate-300"></td>
+                  <td className="h-2 w-16 bg-slate-300"></td>
+                  <td className="h-2 w-20 bg-slate-300"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const filteredTokens = tokenBalances.slice(0, 10).filter(t => t.quote != null && t.quote.toFixed(0) !== "0");
 
   if (someAddress && isValidEnsOrAddress(someAddress)) {
     return (
@@ -172,7 +230,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
             <p>No NFTs found.</p>
           )}
           <h3 className="mt-4 font-bold">Tokens</h3>
-          {tokenBalances.length > 0 ? (
+          {filteredTokens.length > 0 ? (
             <div className="max-h-48 overflow-x-auto">
               <table className="table table-zebra">
                 <thead>
@@ -183,18 +241,13 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
                   </tr>
                 </thead>
                 <tbody>
-                  {tokenBalances
-                    .slice(0, 10)
-                    .filter(t => t.quote?.toFixed(0) !== "0")
-                    .map((token, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{`${token.contract_name} (${token.contract_ticker_symbol})`}</td>
-                          <td>{Number(formatEther(token.balance)).toFixed(2)}</td>
-                          <td>≈${token.quote?.toFixed(2)}</td>
-                        </tr>
-                      );
-                    })}
+                  {filteredTokens.map((token, index) => (
+                    <tr key={index}>
+                      <td>{`${token.contract_name} (${token.contract_ticker_symbol})`}</td>
+                      <td>{Number(formatEther(token.balance)).toFixed(2)}</td>
+                      <td>≈${token.quote.toFixed(2)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -204,56 +257,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
         </div>
       </div>
     );
-  } else {
-    return (
-      <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl flex-grow animate-pulse">
-        <div className="card-body">
-          <div className="flex items-center space-x-4">
-            <div className="rounded-md bg-slate-300 h-6 w-6"></div>
-            <div className="h-2 w-28 bg-slate-300 rounded"></div>
-          </div>
-
-          <h3 className="font-bold mt-4">NFTs</h3>
-          <div className="relative flex flex-col">
-            <div className="carousel-center carousel rounded-box max-w-md space-x-4 bg-secondary p-4">
-              <div className="carousel-item">
-                <div className="rounded-md bg-slate-300 h-32 w-32"></div>
-              </div>
-              <div className="carousel-item">
-                <div className="rounded-md bg-slate-300 h-32 w-32"></div>
-              </div>
-              <div className="carousel-item">
-                <div className="rounded-md bg-slate-300 h-32 w-32"></div>
-              </div>
-            </div>
-          </div>
-
-          <h3 className="font-bold mt-4">Tokens</h3>
-          <div className="max-h-48 overflow-x-auto">
-            <table className="table table-zebra">
-              <thead>
-                <tr>
-                  <th>Token</th>
-                  <th>Balance</th>
-                  <th>Balance in USD</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="h-2 w-28 bg-slate-300"></td>
-                  <td className="h-2 w-16 bg-slate-300"></td>
-                  <td className="h-2 w-20 bg-slate-300"></td>
-                </tr>
-                <tr>
-                  <td className="h-2 w-28 bg-slate-300"></td>
-                  <td className="h-2 w-16 bg-slate-300"></td>
-                  <td className="h-2 w-20 bg-slate-300"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    );
   }
+
+  return null;
 };
