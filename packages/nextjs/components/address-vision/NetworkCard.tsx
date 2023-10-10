@@ -6,45 +6,14 @@ import { TokensTable } from "./TokensTable";
 import { CovalentClient } from "@covalenthq/client-sdk";
 import { Address, isAddress } from "viem";
 import { Chain } from "wagmi";
-import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
-
-const isValidEnsOrAddress = (name: string) => isAddress(name) || /^[a-z0-9-]+\.eth$/.test(name); // @remind move this to utils
+import {
+  getBlockExplorerAddressLink,
+  getChainNameForCovalent,
+  getChainNameForOpensea,
+  isValidEnsOrAddress,
+} from "~~/utils/scaffold-eth";
 
 const client = new CovalentClient(process.env.NEXT_PUBLIC_COVALENT_API_KEY as string);
-
-const getChainNameForOpensea = (id: number) => {
-  switch (id) {
-    case 1:
-      return "ethereum";
-    case 42161:
-      return "arbitrum";
-    case 10:
-      return "optimism";
-    case 8453:
-      return "base";
-    case 137:
-      return "matic";
-    default:
-      return "ethereum";
-  }
-};
-
-const getChainNameForCovalent = (id: number) => {
-  switch (id) {
-    case 1:
-      return "eth-mainnet";
-    case 42161:
-      return "arbitrum-mainnet";
-    case 10:
-      return "optimism-mainnet";
-    case 8453:
-      return "base-mainnet";
-    case 137:
-      return "matic-mainnet";
-    default:
-      return "eth-mainnet";
-  }
-};
 
 export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chain: Chain }) => {
   const [nfts, setNfts] = useState<any[]>([]);

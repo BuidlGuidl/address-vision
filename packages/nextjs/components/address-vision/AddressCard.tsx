@@ -1,8 +1,7 @@
 import { Address as AddressComp, Balance } from "../scaffold-eth";
 import { Address, isAddress } from "viem";
 import * as chains from "wagmi/chains";
-
-const isValidEnsOrAddress = (name: string) => isAddress(name) || /^[a-z0-9-]+\.eth$/.test(name); // @remind move this to utils
+import { isValidEnsOrAddress } from "~~/utils/scaffold-eth";
 
 export const AddressCard = ({ address }: { address: Address }) => {
   if (!isAddress(address)) {

@@ -4,23 +4,7 @@ import Link from "next/link";
 import { useDarkMode } from "usehooks-ts";
 import { Address } from "viem";
 import { Chain } from "wagmi";
-
-const getChainNameForOpensea = (id: number) => {
-  switch (id) {
-    case 1:
-      return "ethereum";
-    case 42161:
-      return "arbitrum";
-    case 10:
-      return "optimism";
-    case 8453:
-      return "base";
-    case 137:
-      return "matic";
-    default:
-      return "ethereum";
-  }
-};
+import { getChainNameForOpensea } from "~~/utils/scaffold-eth";
 
 export const NftsCarousel = ({ nfts, chain, address }: { nfts: any[]; chain: Chain; address: Address }) => {
   const [isAtStart, setIsAtStart] = useState(true);
