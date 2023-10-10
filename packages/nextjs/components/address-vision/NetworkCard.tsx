@@ -67,7 +67,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
 
       if (data.nfts && data.nfts.length > 0) {
         const nftData = [];
-        for (let i = 0; i < Math.min(10, data.nfts.length); i++) {
+        for (let i = 0; i < Math.min(5, data.nfts.length); i++) {
           const nft = data.nfts[i];
           if (nft.image_url && nft.identifier !== "0") {
             nftData.push({
