@@ -114,7 +114,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
       <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl flex-grow">
         <div className="card-body">
           <h2 className="card-title whitespace-nowrap">
-            <AddressComp address={someAddress} /> on{" "}
+            <AddressComp address={someAddress} chain={chain} /> on{" "}
             <Link
               href={getBlockExplorerAddressLink(chain, someAddress)}
               rel="noopener noreferrer"
