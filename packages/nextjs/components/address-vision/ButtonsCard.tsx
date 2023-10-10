@@ -10,6 +10,7 @@ export const ButtonsCard = ({ address }: { address: Address }) => {
   const client = usePublicClient();
 
   useEffect(() => {
+    setIsContractAddress(undefined);
     const fetchIsContract = async () => {
       if (isAddress(address)) {
         const bytecode = await client.getBytecode({ address });
