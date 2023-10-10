@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
-import { isAddress } from "viem";
 import * as chains from "wagmi/chains";
+import { AddressCard } from "~~/components/address-vision/AddressCard";
 import { ButtonsCard } from "~~/components/address-vision/ButtonsCard";
 import { NetworkCard } from "~~/components/address-vision/NetworkCard";
 import { QRCodeCard } from "~~/components/address-vision/QRCodeCard";
-import { Address, AddressInput, Balance } from "~~/components/scaffold-eth";
-
-// @todo add chain logos to cards for better UX
-const isValidEnsOrAddress = (name: string) => isAddress(name) || /^[a-z0-9-]+\.eth$/.test(name); // @remind move this to utils
+import { AddressInput } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
   const [someAddress, setSomeAddress] = useState("");
@@ -41,30 +38,7 @@ const Home: NextPage = () => {
         <div className="flex w-full flex-grow flex-col items-center justify-center gap-4 p-4 md:mt-4">
           <div className="flex flex-wrap">
             <div className="w-full flex-wrap space-y-4 p-4 sm:w-1/2 lg:w-1/3">
-              <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl flex flex-col">
-                <div className="card-body flex-grow pb-0">
-                  <h2 className="card-title">
-                    {someAddress && (
-                      <>
-                        <div className="hidden md:block">
-                          <Address address={someAddress} size="4xl" />
-                        </div>
-                        <div className="block md:hidden">
-                          <Address address={someAddress} size="3xl" />
-                        </div>
-                      </>
-                    )}
-                  </h2>
-                </div>
-                <div className="card-actions flex items-center justify-end p-4 text-xl">
-                  Balance:{" "}
-                  {someAddress && isValidEnsOrAddress(someAddress) ? (
-                    <Balance address={someAddress} targetNetwork={chains.mainnet} className="text-2xl" />
-                  ) : (
-                    <p>search for an address</p>
-                  )}
-                </div>
-              </div>
+              <AddressCard address={someAddress} />
               <div className="w-[370px] md:hidden lg:hidden">
                 <QRCodeCard someAddress={someAddress} />
               </div>
