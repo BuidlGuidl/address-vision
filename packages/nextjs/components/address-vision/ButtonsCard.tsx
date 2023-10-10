@@ -1,7 +1,44 @@
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Address as AddressComp } from "../scaffold-eth";
 import { Address, isAddress } from "viem";
+import { usePublicClient } from "wagmi";
 
 export const ButtonsCard = ({ address }: { address: Address }) => {
+  const [isContractAddress, setIsContractAddress] = useState<boolean | undefined>(undefined);
+  const client = usePublicClient();
+
+  useEffect(() => {
+    const fetchIsContract = async () => {
+      if (isAddress(address)) {
+        const bytecode = await client.getBytecode({ address });
+        setIsContractAddress(bytecode ? bytecode.length > 2 : false);
+      }
+    };
+
+    fetchIsContract();
+  }, [address]);
+
+  if (isContractAddress) {
+    return (
+      <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl">
+        <div className="card-body">
+          <h2 className="card-title">
+            See
+            <AddressComp address={address} />
+            on
+            <Link href={`https://abi.ninja/${address}/mainnet`} className="flex underline items-center">
+              <Image src="/abininja-logo.svg" width={50} height={50} alt="abi.ninja logo" />
+              abi.ninja
+            </Link>
+          </h2>
+          <div className="text-xl">This is a contract!</div>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAddress(address)) {
     return (
       <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl">
@@ -31,13 +68,7 @@ export const ButtonsCard = ({ address }: { address: Address }) => {
       <div className="card-body">
         <h2 className="card-title">
           See
-          {address ? (
-            <div>
-              <AddressComp address={address} />
-            </div>
-          ) : (
-            <p>someone</p>
-          )}
+          <AddressComp address={address} />
           on
         </h2>
         <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
