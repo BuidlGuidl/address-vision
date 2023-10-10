@@ -175,15 +175,18 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
                   </tr>
                 </thead>
                 <tbody>
-                  {tokenBalances.slice(0, 10).map((token, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{`${token.contract_name} (${token.contract_ticker_symbol})`}</td>
-                        <td>{Number(formatEther(token.balance)).toFixed(2)}</td>
-                        <td>≈${token.quote?.toFixed(2)}</td>
-                      </tr>
-                    );
-                  })}
+                  {tokenBalances
+                    .slice(0, 10)
+                    .filter(t => t.quote?.toFixed(0) !== "0")
+                    .map((token, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{`${token.contract_name} (${token.contract_ticker_symbol})`}</td>
+                          <td>{Number(formatEther(token.balance)).toFixed(2)}</td>
+                          <td>≈${token.quote?.toFixed(2)}</td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
