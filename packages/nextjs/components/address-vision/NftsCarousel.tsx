@@ -50,7 +50,10 @@ export const NftsCarousel = ({ nfts, chain, address }: { nfts: any[]; chain: Cha
               ❯
             </button>
           </div>
-          <div ref={carouselRef} className="carousel-center carousel rounded-box max-w-md space-x-4 bg-secondary p-4">
+          <div
+            ref={carouselRef}
+            className="carousel-center carousel rounded-box max-w-md space-x-4 bg-secondary p-4 z-10"
+          >
             {nfts.map((nft, index) => (
               <div className="carousel-item" key={index}>
                 <a
