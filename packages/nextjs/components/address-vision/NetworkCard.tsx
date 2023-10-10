@@ -101,7 +101,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
   useEffect(() => {
     setNfts([]);
     setTokenBalances([]);
-    if (someAddress && isValidEnsOrAddress(someAddress)) {
+    if (someAddress && isAddress(someAddress)) {
       getNfts();
       getTokens();
     }
