@@ -52,6 +52,8 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useDarkMode();
 
+  const carouselRef = useRef<HTMLDivElement>(null);
+
   const getNfts = async () => {
     const options = {
       method: "GET",
@@ -111,18 +113,32 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [someAddress]);
 
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
 
-  // Functions to handle button clicks
+  const updateButtonState = () => {
+    if (carouselRef.current) {
+      const element = carouselRef.current;
+      setIsAtStart(element.scrollLeft === 0);
+      setIsAtEnd(element.scrollLeft + element.clientWidth >= element.scrollWidth);
+    }
+  };
+
+  useEffect(() => {
+    updateButtonState();
+  }, [nfts]);
+
   const scrollLeft = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({ left: -200, behavior: "smooth" });
+      setTimeout(updateButtonState, 300);
     }
   };
 
   const scrollRight = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({ left: 200, behavior: "smooth" });
+      setTimeout(updateButtonState, 300);
     }
   };
 
@@ -200,10 +216,10 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
           {nfts.length > 0 ? (
             <div className="relative flex flex-col">
               <div className="absolute flex justify-between transform -translate-y-1/2 left-3 right-3 top-1/2">
-                <button onClick={scrollLeft} className="btn btn-sm btn-circle opacity-60">
+                <button onClick={scrollLeft} className="btn btn-sm btn-circle opacity-60" disabled={isAtStart}>
                   ❮
                 </button>
-                <button onClick={scrollRight} className="btn btn-sm btn-circle opacity-60">
+                <button onClick={scrollRight} className="btn btn-sm btn-circle opacity-60" disabled={isAtEnd}>
                   ❯
                 </button>
               </div>
