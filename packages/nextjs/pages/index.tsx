@@ -3,6 +3,7 @@ import Head from "next/head";
 import type { NextPage } from "next";
 import { isAddress } from "viem";
 import * as chains from "wagmi/chains";
+import { ButtonsCard } from "~~/components/address-vision/ButtonsCard";
 import { NetworkCard } from "~~/components/address-vision/NetworkCard";
 import { QRCodeCard } from "~~/components/address-vision/QRCodeCard";
 import { Address, AddressInput, Balance } from "~~/components/scaffold-eth";
@@ -67,83 +68,7 @@ const Home: NextPage = () => {
               <div className="w-[370px] md:hidden lg:hidden">
                 <QRCodeCard someAddress={someAddress} />
               </div>
-              <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl">
-                <div className="card-body">
-                  <h2 className="card-title">
-                    See
-                    {someAddress ? (
-                      <div>
-                        <Address address={someAddress} />
-                      </div>
-                    ) : (
-                      <p>someone</p>
-                    )}
-                    on
-                  </h2>
-                  <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
-                    <button
-                      className="btn btn-primary btn-xs rounded-full"
-                      title="View on Etherscan"
-                      tabIndex={1}
-                      onClick={() => {
-                        window.open("https://etherscan.io/address/" + someAddress, "_blank");
-                      }}
-                    >
-                      Etherscan
-                    </button>
-                    <button
-                      className="btn btn-primary btn-xs rounded-full"
-                      title="View on Blockscan"
-                      tabIndex={2}
-                      onClick={() => {
-                        window.open("https://blockscan.com/address/" + someAddress, "_blank");
-                      }}
-                    >
-                      Blockscan
-                    </button>
-                    <button
-                      className="btn btn-primary btn-xs rounded-full"
-                      title="View on Optimistic Etherscan"
-                      tabIndex={3}
-                      onClick={() => {
-                        window.open("https://optimistic.etherscan.io/address/" + someAddress, "_blank");
-                      }}
-                    >
-                      Op Etherscan
-                    </button>
-                    <button
-                      className="btn btn-primary btn-xs rounded-full"
-                      title="View on Zerion"
-                      tabIndex={4}
-                      onClick={() => {
-                        window.open("https://app.zerion.io/" + someAddress + "/overview", "_blank");
-                      }}
-                    >
-                      Zerion
-                    </button>
-                    <button
-                      className="btn btn-primary btn-xs rounded-full"
-                      title="View on Zapper"
-                      tabIndex={5}
-                      onClick={() => {
-                        window.open("https://zapper.xyz/account/" + someAddress, "_blank");
-                      }}
-                    >
-                      Zapper
-                    </button>
-                    <button
-                      className="btn btn-primary btn-xs rounded-full"
-                      title="View on Safe"
-                      tabIndex={6}
-                      onClick={() => {
-                        window.open("https://app.safe.global/transactions/queue?safe=eth:" + someAddress, "_blank");
-                      }}
-                    >
-                      Safe
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ButtonsCard address={someAddress} />
 
               <NetworkCard someAddress={someAddress} chain={chains.arbitrum} />
               <div className="lg:hidden">
