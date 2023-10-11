@@ -46,13 +46,13 @@ const Home: NextPage = () => {
                 <NetworkCard someAddress={someAddress} chain={chains.polygon} />
               </div>
               <NetworkCard someAddress={someAddress} chain={chains.base} />
-              <div className="space-y-4 block md:hidden lg:hidden">
+              <div className="space-y-4 md:hidden lg:hidden">
                 <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
                 <NetworkCard someAddress={someAddress} chain={chains.optimism} />
               </div>
             </div>
 
-            <div className="w-full space-y-4 p-4 hidden md:block lg:block lg:w-1/3">
+            <div className="w-full space-y-4 p-4 hidden sm:w-1/2 md:block lg:block lg:w-1/3">
               <QRCodeCard someAddress={someAddress} />
               <div className="lg:hidden">
                 <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
               <NetworkCard someAddress={someAddress} chain={chains.optimism} />
             </div>
 
-            <div className="w-full space-y-4 p-4 hidden md:hidden lg:block lg:w-1/3">
+            <div className="w-full space-y-4 p-4 hidden sm:w-1/2 md:hidden lg:block lg:w-1/3">
               <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
 
               <NetworkCard someAddress={someAddress} chain={chains.polygon} />
