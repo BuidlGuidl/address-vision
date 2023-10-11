@@ -75,16 +75,6 @@ export const ButtonsCard = ({ address }: { address: Address }) => {
         <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
           <button
             className="btn btn-primary btn-xs rounded-full"
-            title="View on Etherscan"
-            tabIndex={1}
-            onClick={() => {
-              window.open("https://etherscan.io/address/" + address, "_blank");
-            }}
-          >
-            Etherscan
-          </button>
-          <button
-            className="btn btn-primary btn-xs rounded-full"
             title="View on Blockscan"
             tabIndex={2}
             onClick={() => {
@@ -102,6 +92,16 @@ export const ButtonsCard = ({ address }: { address: Address }) => {
             }}
           >
             Op Etherscan
+          </button>
+          <button
+            className="btn btn-primary btn-xs rounded-full"
+            title="View on Etherscan"
+            tabIndex={1}
+            onClick={() => {
+              window.open("https://https://arbiscan.io//address/" + address, "_blank");
+            }}
+          >
+            Arbiscan
           </button>
           <button
             className="btn btn-primary btn-xs rounded-full"
