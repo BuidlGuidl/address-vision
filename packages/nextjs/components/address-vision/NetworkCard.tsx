@@ -132,6 +132,8 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
     );
   }
 
+  if (nfts.length === 0 && tokenBalances.length === 0) return null;
+
   const filteredTokens = tokenBalances.slice(0, 10).filter(t => t.quote != null && t.quote.toFixed(0) !== "0");
 
   if (someAddress && isValidEnsOrAddress(someAddress)) {
