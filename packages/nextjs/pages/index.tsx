@@ -41,29 +41,29 @@ const Home: NextPage = () => {
               </div>
               <ButtonsCard address={someAddress} />
 
-              <NetworkCard someAddress={someAddress} chain={chains.arbitrum} />
+              <NetworkCard address={someAddress} chain={chains.arbitrum} />
               <div className="lg:hidden">
-                <NetworkCard someAddress={someAddress} chain={chains.polygon} />
+                <NetworkCard address={someAddress} chain={chains.polygon} />
               </div>
-              <NetworkCard someAddress={someAddress} chain={chains.base} />
+              <NetworkCard address={someAddress} chain={chains.base} />
               <div className="space-y-4 md:hidden lg:hidden">
-                <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
-                <NetworkCard someAddress={someAddress} chain={chains.optimism} />
+                <NetworkCard address={someAddress} chain={chains.mainnet} />
+                <NetworkCard address={someAddress} chain={chains.optimism} />
               </div>
             </div>
 
             <div className="w-full space-y-4 p-4 hidden sm:w-1/2 md:block lg:block lg:w-1/3">
               <QRCodeCard someAddress={someAddress} />
               <div className="lg:hidden">
-                <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
+                <NetworkCard address={someAddress} chain={chains.mainnet} />
               </div>
-              <NetworkCard someAddress={someAddress} chain={chains.optimism} />
+              <NetworkCard address={someAddress} chain={chains.optimism} />
             </div>
 
             <div className="w-full space-y-4 p-4 hidden sm:w-1/2 md:hidden lg:block lg:w-1/3">
-              <NetworkCard someAddress={someAddress} chain={chains.mainnet} />
+              <NetworkCard address={someAddress} chain={chains.mainnet} />
 
-              <NetworkCard someAddress={someAddress} chain={chains.polygon} />
+              <NetworkCard address={someAddress} chain={chains.polygon} />
             </div>
           </div>
         </div>

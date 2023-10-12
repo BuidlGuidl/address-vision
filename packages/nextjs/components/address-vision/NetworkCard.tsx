@@ -15,7 +15,7 @@ import {
 
 const client = new CovalentClient(process.env.NEXT_PUBLIC_COVALENT_API_KEY as string);
 
-export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chain: Chain }) => {
+export const NetworkCard = ({ address, chain }: { address: Address; chain: Chain }) => {
   const [nfts, setNfts] = useState<any[]>([]);
   const [tokenBalances, setTokenBalances] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
 
     try {
       const response = await fetch(
-        `https://api.opensea.io/api/v2/chain/${getChainNameForOpensea(chain.id)}/account/${someAddress}/nfts`,
+        `https://api.opensea.io/api/v2/chain/${getChainNameForOpensea(chain.id)}/account/${address}/nfts`,
         options,
       );
       const data = await response.json();
@@ -55,7 +55,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
   const getTokens = async () => {
     const res = await client.BalanceService.getTokenBalancesForWalletAddress(
       getChainNameForCovalent(chain.id),
-      someAddress,
+      address,
       {
         nft: false,
         noSpam: true,
@@ -72,12 +72,12 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
     setLoading(true);
     setNfts([]);
     setTokenBalances([]);
-    if (someAddress && isAddress(someAddress)) {
+    if (address && isAddress(address)) {
       getNfts();
       getTokens();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [someAddress]);
+  }, [address]);
 
   if (loading) {
     return (
@@ -136,14 +136,14 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
 
   const filteredTokens = tokenBalances.slice(0, 10).filter(t => t.quote != null && t.quote.toFixed(0) !== "0");
 
-  if (someAddress && isValidEnsOrAddress(someAddress)) {
+  if (address && isValidEnsOrAddress(address)) {
     return (
       <div className="card w-[370px] md:w-[425px] bg-base-100 shadow-xl flex-grow">
         <div className="card-body">
           <h2 className="card-title whitespace-nowrap">
-            <AddressComp address={someAddress} chain={chain} /> on{" "}
+            <AddressComp address={address} chain={chain} /> on{" "}
             <Link
-              href={getBlockExplorerAddressLink(chain, someAddress)}
+              href={getBlockExplorerAddressLink(chain, address)}
               rel="noopener noreferrer"
               target="_blank"
               className="flex"
@@ -152,7 +152,7 @@ export const NetworkCard = ({ someAddress, chain }: { someAddress: Address; chai
             </Link>
           </h2>
           <h3 className="font-bold">NFTs</h3>
-          <NftsCarousel nfts={nfts} chain={chain} address={someAddress} />
+          <NftsCarousel nfts={nfts} chain={chain} address={address} />
           <h3 className="mt-4 font-bold">Tokens</h3>
           <TokensTable tokens={filteredTokens} />
         </div>
