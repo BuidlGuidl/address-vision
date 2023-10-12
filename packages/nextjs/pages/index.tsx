@@ -141,8 +141,8 @@ const Home: NextPage = () => {
         });
       }
       if (resp.data) {
-        // const items = resp.data.items.filter(item => Boolean(item.quote) !== false);
-        const items = resp.data.items;
+        let items = resp.data.items.filter(item => Boolean(item.quote) !== false);
+        items = items.filter(item => item["pretty_quote"] !== "$0.00");
         setTokenData([...items]);
       }
     }
@@ -500,7 +500,7 @@ const Home: NextPage = () => {
           {tokenData !== undefined && activeMenu === MENUS.tokens && utils.isAddress(userAddress) && (
             <div className="-flex -flex-col -items-start w-[100%] ml-20 ">
               {/* <div className="badge badge-primary">Tokens</div> */}
-              <div className="m--5 -flex -flex-wrap grid grid-cols-4 gap-2">
+              <div className="m--5 -flex -flex-wrap grid grid-cols-4 gap-1">
                 {tokenData &&
                   tokenData.map((item: any) => {
                     return (
