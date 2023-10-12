@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { isAddress } from "viem";
-import { useEnsAvatar, useEnsName } from "wagmi";
+import { useEnsName } from "wagmi";
+import { Chain } from "wagmi";
 import { hardhat } from "wagmi/chains";
+import * as chains from "wagmi/chains";
 import { CheckCircleIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { getBlockExplorerAddressLink, getTargetNetwork } from "~~/utils/scaffold-eth";
@@ -12,7 +14,8 @@ type TAddressProps = {
   address?: string;
   disableAddressLink?: boolean;
   format?: "short" | "long";
-  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
+  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+  chain?: Chain;
 };
 
 const blockieSizeMap = {
@@ -23,23 +26,24 @@ const blockieSizeMap = {
   xl: 10,
   "2xl": 12,
   "3xl": 15,
+  "4xl": 20,
 };
 
 /**
  * Displays an address (or ENS) with a Blockie image and option to copy address.
  */
-export const Address = ({ address, disableAddressLink, format, size = "base" }: TAddressProps) => {
+export const Address = ({
+  address,
+  disableAddressLink,
+  format,
+  size = "base",
+  chain = chains.mainnet,
+}: TAddressProps) => {
   const [ens, setEns] = useState<string | null>();
   const [ensAvatar, setEnsAvatar] = useState<string | null>();
   const [addressCopied, setAddressCopied] = useState(false);
 
   const { data: fetchedEns } = useEnsName({ address, enabled: isAddress(address ?? ""), chainId: 1 });
-  const { data: fetchedEnsAvatar } = useEnsAvatar({
-    name: fetchedEns,
-    enabled: Boolean(fetchedEns),
-    chainId: 1,
-    cacheTime: 30_000,
-  });
 
   // We need to apply this pattern to avoid Hydration errors.
   useEffect(() => {
@@ -47,8 +51,36 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
   }, [fetchedEns]);
 
   useEffect(() => {
-    setEnsAvatar(fetchedEnsAvatar);
-  }, [fetchedEnsAvatar]);
+    const fetchAvatar = async () => {
+      if (!fetchedEns) {
+        setEnsAvatar(null);
+        return;
+      }
+
+      try {
+        const avatarURL = `https://metadata.ens.domains/mainnet/avatar/${fetchedEns}`;
+        const response = await fetch(avatarURL);
+        const contentType = response.headers.get("Content-Type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const json = await response.json();
+          if (json.message === "There is no avatar set under given address") {
+            setEnsAvatar(null);
+          }
+          return;
+        }
+
+        const imageBlob = await response.blob();
+        const imageURL = URL.createObjectURL(imageBlob);
+        setEnsAvatar(imageURL);
+      } catch (error) {
+        console.error("Error fetching ENS avatar:", error);
+        setEnsAvatar(null);
+      }
+    };
+
+    fetchAvatar();
+  }, [fetchedEns]);
 
   // Skeleton UI
   if (!address) {
@@ -66,7 +98,7 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
     return <span className="text-error">Wrong address</span>;
   }
 
-  const blockExplorerAddressLink = getBlockExplorerAddressLink(getTargetNetwork(), address);
+  const blockExplorerAddressLink = getBlockExplorerAddressLink(chain, address);
   let displayAddress = address?.slice(0, 5) + "..." + address?.slice(-4);
 
   if (ens) {
@@ -101,10 +133,7 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
         </a>
       )}
       {addressCopied ? (
-        <CheckCircleIcon
-          className="ml-1.5 text-xl font-normal text-sky-600 h-5 w-5 cursor-pointer"
-          aria-hidden="true"
-        />
+        <CheckCircleIcon className="ml-1  font-normal text-neutral h-4 w-4 cursor-pointer" aria-hidden="true" />
       ) : (
         <CopyToClipboard
           text={address}
@@ -115,10 +144,7 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
             }, 800);
           }}
         >
-          <DocumentDuplicateIcon
-            className="ml-1.5 text-xl font-normal text-sky-600 h-5 w-5 cursor-pointer"
-            aria-hidden="true"
-          />
+          <DocumentDuplicateIcon className="ml-1 font-normal text-neutral h-4 w-4 cursor-pointer" aria-hidden="true" />
         </CopyToClipboard>
       )}
     </div>

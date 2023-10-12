@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}", "./utils/**/*.{js,ts,jsx,tsx}"],
@@ -34,25 +35,24 @@ module.exports = {
       },
       {
         scaffoldEthDark: {
-          primary: "#212638",
-          "primary-content": "#F9FBFF",
-          secondary: "#323f61",
-          "secondary-content": "#F9FBFF",
-          accent: "#4969A6",
-          "accent-content": "#F9FBFF",
-          neutral: "#F9FBFF",
-          "neutral-content": "#385183",
-          "base-100": "#385183",
-          "base-200": "#2A3655",
-          "base-300": "#212638",
-          "base-content": "#F9FBFF",
-          info: "#385183",
-          success: "#34EEB6",
-          warning: "#FFCF72",
-          error: "#FF8863",
+          primary: "#6269B0",
+          "primary-content": "#E8E9F3",
+          secondary: "#2E3A59",
+          "secondary-content": "#C7C9D9",
+          accent: "#7F85B2",
+          "accent-content": "#C7C9D9",
+          neutral: "#C7C9D9",
+          "neutral-content": "#1D2333",
+          "base-100": "#23293b",
+          "base-200": "#151A25",
+          "base-300": "#131722",
+          "base-content": "#C7C9D9",
+          info: "#6672B1",
+          success: "#40DAB5",
+          warning: "#FFD073",
+          error: "#FF8E76",
 
           "--rounded-btn": "9999rem",
-
           ".tooltip": {
             "--tooltip-tail": "6px",
             "--tooltip-color": "hsl(var(--p))",
@@ -115,6 +115,11 @@ module.exports = {
         "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         zoom: "zoom 1s ease infinite",
       },
+    },
+    screens: {
+      "sm": "400px",
+      "md": "1000px",
+      "lg": "1400px",
     },
   },
 };

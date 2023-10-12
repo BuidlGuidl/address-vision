@@ -1,71 +1,81 @@
-import Link from "next/link";
+import React, { useState } from "react";
+import Head from "next/head";
 import type { NextPage } from "next";
-import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
-import { MetaHeader } from "~~/components/MetaHeader";
+import * as chains from "wagmi/chains";
+import { AddressCard, ButtonsCard, NetworkCard, QRCodeCard } from "~~/components/address-vision/";
+import { AddressInput } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
+  const [someAddress, setSomeAddress] = useState("");
+
   return (
     <>
-      <MetaHeader />
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/pages/index.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+      <Head>
+        <title>address.vision</title>
+        <meta name="description" content="address vision" />
+      </Head>
+      <div className="navbar sticky top-0 z-20 grid min-h-0 flex-shrink-0 grid-cols-12 justify-between bg-base-100 px-0 shadow-md shadow-secondary sm:px-2 lg:static">
+        <div className="col-start-4 flex flex-row items-center md:col-start-1 md:col-end-3">
+          <div className="mb-4 text-4xl">👀</div>
+          <h1 className="ml-2 text-2xl font-bold">address.vision</h1>
         </div>
+        <div className="col-start-2 col-end-12 row-start-2 flex justify-center md:col-start-4 md:col-end-10 md:row-auto">
+          <div className="flex-grow">
+            <AddressInput
+              placeholder="Enter an Ethereum address or ENS name to get started"
+              value={someAddress}
+              onChange={setSomeAddress}
+            />
+          </div>
+        </div>
+        <div className="col-start-11 col-end-13">{/* Additional content, perhaps history?*/}</div>
+      </div>
 
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
+      {someAddress ? (
+        <div className="flex w-full flex-grow flex-col items-center justify-center gap-4 p-4 md:mt-4">
+          <div className="flex flex-wrap">
+            <div className="w-full flex-wrap space-y-4 p-4 sm:w-1/2 lg:w-1/3">
+              <AddressCard address={someAddress} />
+              <div className="w-[370px] md:hidden lg:hidden">
+                <QRCodeCard someAddress={someAddress} />
+              </div>
+              <ButtonsCard address={someAddress} />
+
+              <NetworkCard address={someAddress} chain={chains.arbitrum} />
+              <div className="lg:hidden">
+                <NetworkCard address={someAddress} chain={chains.polygon} />
+              </div>
+              <NetworkCard address={someAddress} chain={chains.base} />
+              <div className="space-y-4 md:hidden lg:hidden">
+                <NetworkCard address={someAddress} chain={chains.mainnet} />
+                <NetworkCard address={someAddress} chain={chains.optimism} />
+              </div>
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
+
+            <div className="w-full space-y-4 p-4 hidden sm:w-1/2 md:block lg:block lg:w-1/3">
+              <QRCodeCard someAddress={someAddress} />
+              <div className="lg:hidden">
+                <NetworkCard address={someAddress} chain={chains.mainnet} />
+              </div>
+              <NetworkCard address={someAddress} chain={chains.optimism} />
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
+
+            <div className="w-full space-y-4 p-4 hidden sm:w-1/2 md:hidden lg:block lg:w-1/3">
+              <NetworkCard address={someAddress} chain={chains.mainnet} />
+
+              <NetworkCard address={someAddress} chain={chains.polygon} />
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="relative flex flex-grow flex-col items-center justify-center">
+          <div className="mb-4 text-9xl">👀</div>
+          <h1 className="mb-4 text-center text-4xl font-bold">Welcome to address.vision!</h1>
+          <p className="mb-4 text-center text-xl">
+            To get started, enter an Ethereum address or ENS name in the search bar above.
+          </p>
+        </div>
+      )}
     </>
   );
 };
